@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html style="display: none;" <% if(config.language !== null) { %>lang="<%- config.language.substring(0,2) %>"<% } %>>
+    <%- partial('_partial/head') %>
+
+    <% if(page.layout === 'gallery') { %>
+        <!-- Single Gallery Page -->
+        <%- partial('_widget/page-gallery') %>
+    <% } else { %>
+        <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+        <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+        <!--End-->
+        <script>
+            fetch('https://v1.hitokoto.cn?c=k')
+                .then(function (res){
+                    return res.json();
+                })
+                .then(function (data) {
+                    var hitokoto = document.getElementById('hitokoto');
+                    hitokoto.innerText = data.hitokoto + '——【' + data.from + '】';
+                })
+                .catch(function (err) {
+                })
+        </script>
+        <body id="scheme-<%= theme.scheme %>" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                <% if(theme.scheme === 'Isolation') { %>
+                    <!-- Isolation Header -->
+                    <%- partial('_partial/isolate_info') %>
+                <% } %>
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    <% if(theme.scheme === 'Paradox') { %>
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    <% } %>
+
+                    <%- body %>
+
+                    <% if(theme.scheme === 'Paradox') { %>
+                        <%- partial('_partial/sidebar') %>
+                    <% } %>
+
+                    <% if( (theme.scheme === 'Paradox') && (is_post() || is_home() || is_archive() || is_category() || (page.totop === true) ) ) { %>
+                        <!-- Footer Top Button -->
+                        <%- partial('_partial/footer_top')  %>
+                    <% } %>
+
+                    <%- partial('_partial/footer') %>
+
+                    <%- partial('_partial/import_js') %>
+                </main>
+            </div>
+        </body>
+    <% } %>
+</html>

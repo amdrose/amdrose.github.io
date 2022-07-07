@@ -1,0 +1,25 @@
+<style>
+    #post-content blockquote{
+        display: none;
+    }
+    #scheme-Paradox .article-headline-p{
+        margin: auto;
+    }
+</style>
+<div class="material-post_container">
+
+    <div class="material-post mdl-grid">
+        <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+            <!-- Post Header(Thumbnail & Title) -->
+            <%- partial('../_partial/post-header') %>
+            <%- partial('../_partial/post-content') %>
+            <!-- Post Comments -->
+            <% if(page.comment !== false) { %>
+                <%- partial('../_partial/comment') %>
+            <% } %>
+        </div>
+
+        <!-- Post Prev & Next Nav -->
+    </div>
+</div>
